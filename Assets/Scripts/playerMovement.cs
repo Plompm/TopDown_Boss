@@ -2,28 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerMovement : MonoBehaviour
+public class playerMovement : Movement
 {
-    [SerializeField] float _maxSpeed = .25f;
-    public float MaxSpeed
+    float _timer;
+    float _maxSpeedNorm;
+
+    private void Start()
     {
-        get => _maxSpeed;
-        set => _maxSpeed = value;
+        _maxSpeedNorm = _maxSpeed;
     }
 
-    Rigidbody _rb = null;
-
-    private void Awake()
+    private void Update()
     {
-        _rb = GetComponent<Rigidbody>();
+        Dash();
+    }
+
+
+    void Dash()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _timer = Time.time + 0.1f;
+            _maxSpeed += .5f;
+        }
+        if (_timer <= Time.time)
+        {
+            _maxSpeed = _maxSpeedNorm;
+        }
     }
 
     private void FixedUpdate()
     {
-        MoveTank();
+        MovePlayer();
     }
 
-    public void MoveTank()
+    public void MovePlayer()
     {
         // calculate the move amount
         float moveAmountThisFrameFowrad = Input.GetAxis("Vertical") * _maxSpeed;
