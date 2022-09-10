@@ -9,7 +9,7 @@ public class projectileMovement : Movement
     //ask about having awake 2 in inherited class
     private void Start()
     {
-        gameObject.transform.LookAt(targetPos.transform.position);
+       // gameObject.transform.LookAt(targetPos.transform.position);
     }
 
     private void FixedUpdate()

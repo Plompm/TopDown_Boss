@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerMovement : Movement
+public class playerInputs : Movement, IInstantiater
 {
     float _timer;
     float _maxSpeedNorm;
+    [SerializeField] GameObject shield;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform[] shieldPoints;
 
     private void Start()
     {
@@ -15,8 +18,9 @@ public class playerMovement : Movement
     private void Update()
     {
         Dash();
+        Block();
+        shoot();
     }
-
 
     void Dash()
     {
@@ -25,9 +29,37 @@ public class playerMovement : Movement
             _timer = Time.time + 0.1f;
             _maxSpeed += .5f;
         }
-        if (_timer <= Time.time)
+        if (_timer <= Time.time) 
         {
             _maxSpeed = _maxSpeedNorm;
+        }
+    }
+
+    void Block()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            spawnObject(shield, shieldPoints[0]);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            spawnObject(shield, shieldPoints[1]);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            spawnObject(shield, shieldPoints[2]);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            spawnObject(shield, shieldPoints[3]);
+        }
+    }
+
+    void shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            spawnObject(projectile, shieldPoints[2]);
         }
     }
 
@@ -47,5 +79,12 @@ public class playerMovement : Movement
         // apply vector to the rigidbody
         _rb.MovePosition(_rb.position + FowardmoveOffset + SidemoveOffset);
         // technically adjusting vector is more accurate! (but more complex)
+    }
+
+
+    public void spawnObject(GameObject spawn, Transform spawnPoint)
+    {
+        GameObject spawned = Instantiate(spawn, spawnPoint.position, spawnPoint.rotation);
+        spawned.transform.parent = gameObject.transform;
     }
 }
