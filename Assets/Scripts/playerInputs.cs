@@ -21,7 +21,7 @@ public class playerInputs : Movement, IInstantiater
     private void Update()
     {
         Dash();
-        Block(0.5f, 1f);
+        Block(0.25f, 1f);
         shoot();
     }
 
@@ -92,6 +92,13 @@ public class playerInputs : Movement, IInstantiater
         }
 
         shield.transform.position = shieldPoints[shieldPos].transform.position;
+    }
+
+    public void ShieldCoolDown(float _coolDown)
+    {
+        shield.GetComponent<MeshRenderer>().enabled = false;
+        shield.GetComponent<BoxCollider>().enabled = false;
+        _shieldCoolDown = Time.time + _coolDown;
     }
 
     void shoot()

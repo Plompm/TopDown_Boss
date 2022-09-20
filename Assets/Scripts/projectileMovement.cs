@@ -42,6 +42,7 @@ public class projectileMovement : Movement
     {
         if (other.GetComponent<IDamageable>() != null)
         {
+            //vfx / sound
             other.GetComponent<IDamageable>().takeDamage(1);
         }
         //add vfx and sound
