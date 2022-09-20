@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class playerInputs : Movement, IInstantiater
 {
-    float _timer;
+    float _dashCoolDown;
+    float _shieldUpTime;
+    float _shieldCoolDown;
     float _maxSpeedNorm;
     [SerializeField] GameObject shield;
     [SerializeField] GameObject projectile;
     [SerializeField] Transform[] shieldPoints;
+    int shieldPos = 0;
 
     private void Start()
     {
@@ -18,7 +21,7 @@ public class playerInputs : Movement, IInstantiater
     private void Update()
     {
         Dash();
-        Block();
+        Block(0.5f, 1f);
         shoot();
     }
 
@@ -26,33 +29,69 @@ public class playerInputs : Movement, IInstantiater
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _timer = Time.time + 0.1f;
+            _dashCoolDown = Time.time + 0.1f;
             _maxSpeed += .5f;
         }
-        if (_timer <= Time.time) 
+        if (_dashCoolDown <= Time.time) 
         {
             _maxSpeed = _maxSpeedNorm;
         }
     }
 
-    void Block()
+    void Block(float _upTime, float _coolDown)
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (_shieldCoolDown <= Time.time)
         {
-            spawnObject(shield, shieldPoints[0]);
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                shield.transform.position = shieldPoints[0].transform.position;
+                shield.transform.rotation = shieldPoints[0].transform.rotation;
+                shieldPos = 0;
+                shield.GetComponent<MeshRenderer>().enabled = true;
+                shield.GetComponent<BoxCollider>().enabled = true;
+                _shieldUpTime = Time.time + _upTime;
+                _shieldCoolDown = Time.time + _coolDown;
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                shield.transform.position = shieldPoints[1].transform.position;
+                shield.transform.rotation = shieldPoints[1].transform.rotation;
+                shieldPos = 1;
+                shield.GetComponent<MeshRenderer>().enabled = true;
+                shield.GetComponent<BoxCollider>().enabled = true;
+                _shieldUpTime = Time.time + _upTime;
+                _shieldCoolDown = Time.time + _coolDown;
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                shield.transform.position = shieldPoints[2].transform.position;
+                shield.transform.rotation = shieldPoints[2].transform.rotation;
+                shieldPos = 2;
+                shield.GetComponent<MeshRenderer>().enabled = true;
+                shield.GetComponent<BoxCollider>().enabled = true;
+                _shieldUpTime = Time.time + _upTime;
+                _shieldCoolDown = Time.time + _coolDown;
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                shield.transform.position = shieldPoints[3].transform.position;
+                shield.transform.rotation = shieldPoints[3].transform.rotation;
+                shieldPos = 3;
+                shield.GetComponent<MeshRenderer>().enabled = true;
+                shield.GetComponent<BoxCollider>().enabled = true;
+                _shieldUpTime = Time.time + _upTime;
+                _shieldCoolDown = Time.time + _coolDown;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+
+        if (_shieldUpTime <= Time.time)
         {
-            spawnObject(shield, shieldPoints[1]);
+            shield.GetComponent<MeshRenderer>().enabled = false;
+            shield.GetComponent<BoxCollider>().enabled = false;
+            
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            spawnObject(shield, shieldPoints[2]);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            spawnObject(shield, shieldPoints[3]);
-        }
+
+        shield.transform.position = shieldPoints[shieldPos].transform.position;
     }
 
     void shoot()

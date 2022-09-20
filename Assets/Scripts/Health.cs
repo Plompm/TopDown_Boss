@@ -18,6 +18,7 @@ public class Health : MonoBehaviour, IDamageable
 
         if (_health <= 0)
         {
+            //vfx, sound
             print("die");
         }
     }
