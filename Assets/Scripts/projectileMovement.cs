@@ -7,6 +7,12 @@ public class projectileMovement : Movement
     public GameObject targetPos;
     float _timer;
 
+    [SerializeField] AudioClip _badHit;
+    [SerializeField] GameObject _vfxBadHit;
+    [SerializeField] GameObject _vfxBossHit;
+
+    float _volume = 1f;
+
     //ask about having awake 2 in inherited class
     private void Start()
     {
@@ -42,10 +48,14 @@ public class projectileMovement : Movement
     {
         if (other.GetComponent<IDamageable>() != null)
         {
-            //vfx / sound
+            Instantiate(_vfxBossHit, gameObject.transform.position, gameObject.transform.rotation);
             other.GetComponent<IDamageable>().takeDamage(1);
         }
-        //add vfx and sound
+        if (other.name != "boss")
+        {
+            Instantiate(_vfxBadHit, gameObject.transform.position, gameObject.transform.rotation);
+            AudioHelper.PlayClip2D(_badHit, _volume);
+        }
         Destroy(gameObject);
     }
 }

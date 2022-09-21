@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c3d78251023254985375c21286e8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 0.01
+  _maxSpeed: 0.12
   _boss: {fileID: 0}
   _player: {fileID: 0}
   _handsList: []

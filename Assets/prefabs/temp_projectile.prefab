@@ -129,3 +129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxSpeed: 1
   targetPos: {fileID: 0}
+  _badHit: {fileID: 8300000, guid: c3b069ee201f9704ab30b9e46c68b4b3, type: 3}
+  _vfxBadHit: {fileID: 166732775900458217, guid: 46af82fb8826d6e4a9b587ca01f45ad0, type: 3}
+  _vfxBossHit: {fileID: 166732775900458217, guid: c241c9d2e01cd4145add7d0dd8292178, type: 3}

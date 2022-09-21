@@ -13,6 +13,14 @@ public class playerInputs : Movement, IInstantiater
     [SerializeField] Transform[] shieldPoints;
     int shieldPos = 0;
 
+    [SerializeField] AudioClip _dashSound;
+    [SerializeField] AudioClip _shieldUp;
+    [SerializeField] AudioClip _fireProjectile;
+
+    [SerializeField] GameObject _vfxDash;
+
+    float _volume = 1f;
+
     private void Start()
     {
         _maxSpeedNorm = _maxSpeed;
@@ -29,6 +37,8 @@ public class playerInputs : Movement, IInstantiater
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            Instantiate(_vfxDash, gameObject.transform.position, gameObject.transform.rotation);
+            AudioHelper.PlayClip2D(_dashSound, _volume);
             _dashCoolDown = Time.time + 0.1f;
             _maxSpeed += .5f;
         }
@@ -44,6 +54,7 @@ public class playerInputs : Movement, IInstantiater
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
+                AudioHelper.PlayClip2D(_shieldUp, _volume);
                 shield.transform.position = shieldPoints[0].transform.position;
                 shield.transform.rotation = shieldPoints[0].transform.rotation;
                 shieldPos = 0;
@@ -54,6 +65,7 @@ public class playerInputs : Movement, IInstantiater
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
+                AudioHelper.PlayClip2D(_shieldUp, _volume);
                 shield.transform.position = shieldPoints[1].transform.position;
                 shield.transform.rotation = shieldPoints[1].transform.rotation;
                 shieldPos = 1;
@@ -64,6 +76,7 @@ public class playerInputs : Movement, IInstantiater
             }
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                AudioHelper.PlayClip2D(_shieldUp, _volume);
                 shield.transform.position = shieldPoints[2].transform.position;
                 shield.transform.rotation = shieldPoints[2].transform.rotation;
                 shieldPos = 2;
@@ -74,6 +87,7 @@ public class playerInputs : Movement, IInstantiater
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
+                AudioHelper.PlayClip2D(_shieldUp, _volume);
                 shield.transform.position = shieldPoints[3].transform.position;
                 shield.transform.rotation = shieldPoints[3].transform.rotation;
                 shieldPos = 3;
@@ -105,6 +119,7 @@ public class playerInputs : Movement, IInstantiater
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            AudioHelper.PlayClip2D(_fireProjectile, _volume);
             spawnObject(projectile, shieldPoints[2]);
         }
     }

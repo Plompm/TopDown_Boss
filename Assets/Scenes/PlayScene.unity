@@ -894,6 +894,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5174194aaa333ac46aadc794bba4c929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shieldHit: {fileID: 8300000, guid: f7d721af509865b4f807cbefc6527a6d, type: 3}
+  _vfxShieldHit: {fileID: 166732775900458217, guid: e6b421e575c4c2b458a90aeffc7aaee8, type: 3}
 --- !u!1 &1331863797 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6512963414834721339, guid: f199d413a5a8c7a40bd236d25243528a, type: 3}
@@ -1024,6 +1026,10 @@ MonoBehaviour:
   - {fileID: 489371815}
   - {fileID: 243352692}
   - {fileID: 661432692}
+  _dashSound: {fileID: 8300000, guid: 2b6dfecd9644ccd44b37bf78f565ee25, type: 3}
+  _shieldUp: {fileID: 8300000, guid: e2b49dee4d228af4896887e63397dbe8, type: 3}
+  _fireProjectile: {fileID: 8300000, guid: f9787d4c56e7f2b4e9e909464aded1da, type: 3}
+  _vfxDash: {fileID: 166732775900458217, guid: 548fa5eadb702974880db0c2ea901c72, type: 3}
 --- !u!54 &1599701066
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1136,6 +1142,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 3
   _health: 0
+  _bossHit: {fileID: 8300000, guid: 4c39ef422e66a9a498f384b2400ba474, type: 3}
+  _playerHit: {fileID: 8300000, guid: 51fac76e29cd4f54eb33593f3434f39f, type: 3}
+  _bossDeath: {fileID: 8300000, guid: 272ea81d777653843a1125f4e8a446de, type: 3}
+  _playerDeath: {fileID: 8300000, guid: 2b671e160f5291f4d941609ff8e99577, type: 3}
+  _vfxDeath: {fileID: 166732775900458217, guid: f53a0f1fcaa54b14095a03bb597cea76, type: 3}
+  _vfxBossHit: {fileID: 166732775900458217, guid: c241c9d2e01cd4145add7d0dd8292178, type: 3}
 --- !u!1 &1655856474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1315,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 3
   _health: 3
+  _bossHit: {fileID: 8300000, guid: 4c39ef422e66a9a498f384b2400ba474, type: 3}
+  _playerHit: {fileID: 8300000, guid: 51fac76e29cd4f54eb33593f3434f39f, type: 3}
+  _bossDeath: {fileID: 8300000, guid: 272ea81d777653843a1125f4e8a446de, type: 3}
+  _playerDeath: {fileID: 8300000, guid: 2b671e160f5291f4d941609ff8e99577, type: 3}
+  _vfxDeath: {fileID: 166732775900458217, guid: f53a0f1fcaa54b14095a03bb597cea76, type: 3}
+  _vfxBossHit: {fileID: 166732775900458217, guid: c241c9d2e01cd4145add7d0dd8292178, type: 3}
 --- !u!114 &1693784685
 MonoBehaviour:
   m_ObjectHideFlags: 0
