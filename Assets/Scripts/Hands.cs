@@ -17,6 +17,7 @@ public class Hands : Movement
 
     public bool stunned = false;
 
+    bool _isPaused;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,33 +25,40 @@ public class Hands : Movement
         startRotation = transform.rotation;
     }
 
+    private void Update()
+    {
+        _isPaused = GameObject.Find("GameController").GetComponent<GameController>().isPaused;
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (stunned == false)
+        if (_isPaused == false)
         {
-            transform.LookAt(_player.transform);
+            if (stunned == false)
+            {
+                transform.LookAt(_player.transform);
 
-            if (gameObject.name == "Hand_L1")
-            {
-                HandL1();
+                if (gameObject.name == "Hand_L1")
+                {
+                    HandL1();
+                }
+                if (gameObject.name == "Hand_L2")
+                {
+                    HandL2();
+                }
+                if (gameObject.name == "Hand_R1")
+                {
+                    HandR1();
+                }
+                if (gameObject.name == "Hand_R2")
+                {
+                    HandR2();
+                }
             }
-            if (gameObject.name == "Hand_L2")
+            else
             {
-                HandL2();
+                StunnedState();
             }
-            if (gameObject.name == "Hand_R1")
-            {
-                HandR1();
-            }
-            if (gameObject.name == "Hand_R2")
-            {
-                HandR2();
-            }
-        }
-        else
-        {
-            StunnedState();
         }
     }
 
@@ -198,9 +206,12 @@ public class Hands : Movement
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (_isPaused == false)
         {
-            other.GetComponent<Health>().takeDamage(1);
+            if (other.tag == "Player")
+            {
+                other.GetComponent<Health>().takeDamage(1);
+            }
         }
     }
 }

@@ -4,35 +4,40 @@ using UnityEngine;
 
 public class Boss : Movement
 {
+    bool _isPaused;
 
     bool _movingRight =  true;
 
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.GetComponent<Health>()._currentHealth == 3 || gameObject.GetComponent<Health>()._currentHealth == 1)
+        _isPaused = GameObject.Find("GameController").GetComponent<GameController>().isPaused;
+        if (_isPaused == false)
         {
-            if (transform.position.x >= 2)
+            if (gameObject.GetComponent<Health>()._currentHealth == 3 || gameObject.GetComponent<Health>()._currentHealth == 1)
             {
-                _movingRight = false;
-            }
-            if (transform.position.x <= -2)
-            {
-                _movingRight = true;
-            }
+                if (transform.position.x >= 2)
+                {
+                    _movingRight = false;
+                }
+                if (transform.position.x <= -2)
+                {
+                    _movingRight = true;
+                }
 
-            if (_movingRight == true)
-            {
-                Vector3 SidemoveOffset = transform.right * _maxSpeed;
+                if (_movingRight == true)
+                {
+                    Vector3 SidemoveOffset = transform.right * _maxSpeed;
 
-                _rb.MovePosition(_rb.position + SidemoveOffset);
-            }
+                    _rb.MovePosition(_rb.position + SidemoveOffset);
+                }
 
-            if (_movingRight == false)
-            {
-                Vector3 SidemoveOffset = -transform.right * _maxSpeed;
+                if (_movingRight == false)
+                {
+                    Vector3 SidemoveOffset = -transform.right * _maxSpeed;
 
-                _rb.MovePosition(_rb.position + SidemoveOffset);
+                    _rb.MovePosition(_rb.position + SidemoveOffset);
+                }
             }
         }
     }

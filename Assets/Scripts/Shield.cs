@@ -7,15 +7,22 @@ public class Shield : MonoBehaviour
     [SerializeField] AudioClip _shieldHit;
     [SerializeField] GameObject _vfxShieldHit;
 
+    bool _isPaused;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "hand")
+        _isPaused = GameObject.Find("GameController").GetComponent<GameController>().isPaused;
+        if (_isPaused == false)
         {
-            Instantiate(_vfxShieldHit, gameObject.transform.position, gameObject.transform.rotation);
-            AudioHelper.PlayClip2D(_shieldHit, 0.5f);
-            other.GetComponent<Hands>().stunned = true;
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.GetComponent<playerInputs>().ShieldCoolDown(1f);
+            if (other.tag == "hand")
+            {
+
+                Instantiate(_vfxShieldHit, gameObject.transform.position, gameObject.transform.rotation);
+                AudioHelper.PlayClip2D(_shieldHit, 0.5f);
+                other.GetComponent<Hands>().stunned = true;
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                player.GetComponent<playerInputs>().ShieldCoolDown(1f);
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ public class playerInputs : Movement, IInstantiater
 
     float _volume = 1f;
 
+    bool _isPaused;
     private void Start()
     {
         _maxSpeedNorm = _maxSpeed;
@@ -31,9 +32,13 @@ public class playerInputs : Movement, IInstantiater
 
     private void Update()
     {
+        _isPaused = GameObject.Find("GameController").GetComponent<GameController>().isPaused;
         Dash();
-        Block(0.25f, 1f);
-        shoot();
+        if (_isPaused == false)
+        {
+            Block(0.25f, 1f);
+            shoot();
+        }
     }
 
     void Dash()
@@ -128,6 +133,7 @@ public class playerInputs : Movement, IInstantiater
 
     void shoot()
     {
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AudioHelper.PlayClip2D(_fireProjectile, _volume);

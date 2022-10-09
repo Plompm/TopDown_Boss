@@ -13,6 +13,7 @@ public class projectileMovement : Movement
 
     float _volume = 1f;
 
+    bool _isPaused;
     //ask about having awake 2 in inherited class
     private void Start()
     {
@@ -46,16 +47,20 @@ public class projectileMovement : Movement
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<IDamageable>() != null)
+        if (_isPaused == false)
         {
-            Instantiate(_vfxBossHit, gameObject.transform.position, gameObject.transform.rotation);
-            other.GetComponent<IDamageable>().takeDamage(1);
-        }
-        if (other.name != "boss")
-        {
-            Instantiate(_vfxBadHit, gameObject.transform.position, gameObject.transform.rotation);
-            AudioHelper.PlayClip2D(_badHit, _volume);
+            if (other.GetComponent<IDamageable>() != null)
+            {
+                Instantiate(_vfxBossHit, gameObject.transform.position, gameObject.transform.rotation);
+                other.GetComponent<IDamageable>().takeDamage(1);
+            }
+            if (other.name != "boss")
+            {
+                Instantiate(_vfxBadHit, gameObject.transform.position, gameObject.transform.rotation);
+                AudioHelper.PlayClip2D(_badHit, _volume);
+            }
         }
         Destroy(gameObject);
+
     }
 }

@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     float _shieldCoolDown;
+    float _redUICoolDown;
+    float _resetTime = 0.2f;
 
-    GameObject _player;
+   GameObject _player;
     GameObject _boss;
 
+    [SerializeField] GameObject _redUI;
     [SerializeField] GameObject _UIplayerHealth;
     [SerializeField] GameObject _UIbossHealth;
 
@@ -38,6 +41,9 @@ public class UIManager : MonoBehaviour
 
         int _intHealth = (int)_health;
         _UIplayerBox.GetComponent<RawImage>().texture = _playerImages[_intHealth];
+
+        _redUI.SetActive(true);
+        _redUICoolDown = Time.time + _resetTime;
     }
 
     void OnBossDamage(float _health)
@@ -56,11 +62,18 @@ public class UIManager : MonoBehaviour
         _shieldCoolDown = Time.time + _coolDownTime;
     }
 
+
+
     private void Update()
     {
         if (_shieldCoolDown <= Time.time)
         {
             _UIshieldBox.SetActive(false);
+        }
+
+        if (_redUICoolDown <= Time.time)
+        {
+            _redUI.SetActive(false);
         }
     }
 }

@@ -5,6 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    GameObject _boss;
+    public bool isPaused;
+
+    private void OnEnable()
+    {
+        _boss = GameObject.FindGameObjectWithTag("Boss");
+
+        _boss.GetComponent<Health>().OnHit += onhitPause;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -18,5 +28,10 @@ public class GameController : MonoBehaviour
             print("Exit");
             Application.Quit();
         }
+    }
+
+    void onhitPause(float nah)
+    {
+        isPaused = true;
     }
 }
