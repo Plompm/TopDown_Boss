@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class playerInputs : Movement, IInstantiater
 {
@@ -18,6 +19,8 @@ public class playerInputs : Movement, IInstantiater
     [SerializeField] AudioClip _fireProjectile;
 
     [SerializeField] GameObject _vfxDash;
+
+    public event Action<float> OnShieldCoolDown;
 
     float _volume = 1f;
 
@@ -62,6 +65,8 @@ public class playerInputs : Movement, IInstantiater
                 shield.GetComponent<BoxCollider>().enabled = true;
                 _shieldUpTime = Time.time + _upTime;
                 _shieldCoolDown = Time.time + _coolDown;
+
+                OnShieldCoolDown.Invoke(_coolDown);
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
@@ -73,6 +78,8 @@ public class playerInputs : Movement, IInstantiater
                 shield.GetComponent<BoxCollider>().enabled = true;
                 _shieldUpTime = Time.time + _upTime;
                 _shieldCoolDown = Time.time + _coolDown;
+
+                OnShieldCoolDown.Invoke(_coolDown);
             }
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
@@ -84,6 +91,8 @@ public class playerInputs : Movement, IInstantiater
                 shield.GetComponent<BoxCollider>().enabled = true;
                 _shieldUpTime = Time.time + _upTime;
                 _shieldCoolDown = Time.time + _coolDown;
+
+                OnShieldCoolDown.Invoke(_coolDown);
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -95,6 +104,8 @@ public class playerInputs : Movement, IInstantiater
                 shield.GetComponent<BoxCollider>().enabled = true;
                 _shieldUpTime = Time.time + _upTime;
                 _shieldCoolDown = Time.time + _coolDown;
+
+                OnShieldCoolDown.Invoke(_coolDown);
             }
         }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Health : MonoBehaviour, IDamageable
 {
@@ -16,6 +17,8 @@ public class Health : MonoBehaviour, IDamageable
     [SerializeField] GameObject _vfxBossHit;
 
     float _volume = 1f;
+
+    public event Action<float> OnHit;
 
     public float _currentHealth => _health;
 
@@ -52,6 +55,7 @@ public class Health : MonoBehaviour, IDamageable
             }
             gameObject.SetActive(false);
         }
+        OnDamage();
     }
 
     private void handCalls()
@@ -66,6 +70,11 @@ public class Health : MonoBehaviour, IDamageable
                 hands[i].SetActive(false);
             }
         }
+    }
+
+    public void OnDamage()
+    {
+        OnHit.Invoke(_health);
     }
 
 }
