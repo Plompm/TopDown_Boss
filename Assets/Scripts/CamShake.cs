@@ -13,8 +13,6 @@ public class CamShake : MonoBehaviour
     [SerializeField] float bossMag;
     [SerializeField] float bossDur;
 
-    [SerializeField] Material _handsMaterial;
-
     private void OnEnable()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -24,10 +22,6 @@ public class CamShake : MonoBehaviour
         _boss = GameObject.FindGameObjectWithTag("Boss");
 
         _boss.GetComponent<Health>().OnHit += _bossCamShake;
-
-        Color BaseColor = _handsMaterial.color;
-        BaseColor.a = 1f;
-        _handsMaterial.color = BaseColor;
     }
 
     public void _playerCamShake(float nah)
@@ -69,9 +63,6 @@ public class CamShake : MonoBehaviour
 
         while (elapsed < _duration)
         {
-            Color color = _handsMaterial.color;
-            color.a = 0.25f;
-            _handsMaterial.color = color;
 
             float x = Random.Range(-1f, 1f) * _magnitued;
             float y = Random.Range(-1f, 1f) * _magnitued;
@@ -82,10 +73,6 @@ public class CamShake : MonoBehaviour
 
             yield return null;
         }
-
-        Color BaseColor = _handsMaterial.color;
-        BaseColor.a = 1f;
-        _handsMaterial.color = BaseColor;
 
         transform.localPosition = orginalPos;
     }

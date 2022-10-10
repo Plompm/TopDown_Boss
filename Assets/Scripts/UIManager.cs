@@ -58,6 +58,7 @@ public class UIManager : MonoBehaviour
 
     void OnShield(float _coolDownTime)
     {
+        _UIshieldBox.GetComponent<Image>().fillAmount = 1;
         _UIshieldBox.SetActive(true);
         _shieldCoolDown = Time.time + _coolDownTime;
     }
@@ -70,6 +71,11 @@ public class UIManager : MonoBehaviour
         {
             _UIshieldBox.SetActive(false);
         }
+        if (_shieldCoolDown >= Time.time)
+        {
+            _UIshieldBox.GetComponent<Image>().fillAmount = Mathf.Clamp01(_shieldCoolDown - Time.time); 
+        }
+        
 
         if (_redUICoolDown <= Time.time)
         {

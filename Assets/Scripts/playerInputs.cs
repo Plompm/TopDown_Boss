@@ -25,6 +25,8 @@ public class playerInputs : Movement, IInstantiater
     float _volume = 1f;
 
     bool _isPaused;
+
+    Transform  prevPos;
     private void Start()
     {
         _maxSpeedNorm = _maxSpeed;
@@ -36,8 +38,28 @@ public class playerInputs : Movement, IInstantiater
         Dash();
         Block(0.25f, 1f);
         shoot();
-    }
 
+        if (transform.position.x >= 30)
+        {
+            transform.position = new Vector3(30, transform.position.y, transform.position.z); 
+        }
+        if (transform.position.x <= -30)
+        {
+            transform.position = new Vector3(-30, transform.position.y, transform.position.z);
+        }
+        if (transform.position.z >= 25)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 25);
+        }
+        if (transform.position.z <= -11)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -11);
+        }
+    }
+    private void LateUpdate()
+    {
+
+    }
     void Dash()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))

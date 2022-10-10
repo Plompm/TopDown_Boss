@@ -9,6 +9,10 @@ public class Hands : Movement
 
     [SerializeField] GameObject[] _handsList;
     [SerializeField] GameObject _handsArt;
+    [SerializeField] GameObject _handShield;
+
+    [SerializeField] Material _handsMaterial;
+    
 
     float _randX;
     float _randZ;
@@ -17,7 +21,7 @@ public class Hands : Movement
     Quaternion startRotation;
 
     float _bossHealth;
-    int phase = 3;
+    public int phase = 3;
 
     public bool stunned = false;
 
@@ -31,20 +35,43 @@ public class Hands : Movement
         _randX = Random.Range(-10, 10);
         _randZ = Random.Range(-10, 10);
         _randY = Random.Range(-10, 10);
+
+
+        Color BaseColor = _handsMaterial.color;
+        BaseColor.a = 1f;
+        _handsMaterial.color = BaseColor;
     }
 
     private void Update()
     {
         _isPaused = GameObject.Find("GameController").GetComponent<GameController>().isPaused;
+
+        if (_isPaused == false)
+        {
+            if (phase == 2)
+            {
+                _handShield.SetActive(true);
+            }
+        }
+        else _handShield.SetActive(false);
     }
     // Update is called once per frame
     void FixedUpdate()
     {
         if (_isPaused == false)
         {
+
+            Color color = _handsMaterial.color;
+            color.a = 1f;
+            _handsMaterial.color = color;
+
+
             if (stunned == false)
             {
-                transform.LookAt(_player.transform);
+                if (phase != 2)
+                {
+                    transform.LookAt(_player.transform);
+                }
                 _handsArt.transform.rotation = gameObject.transform.rotation;
 
                 if (gameObject.name == "Hand_L1")
@@ -73,6 +100,9 @@ public class Hands : Movement
         if (_isPaused == true)
         {
             stunned = false;
+            Color color = _handsMaterial.color;
+            color.a = 0.25f;
+            _handsMaterial.color = color;
 
             if (gameObject.name == "Hand_L1")
             {
@@ -137,11 +167,20 @@ public class Hands : Movement
             else
             {
                 moveHands();
+                _handShield.SetActive(false);
             }
         }
         if (phase == 2)
         {
-            moveHands();
+            transform.LookAt(_player.transform);
+            if (_handsList[1].GetComponent<Hands>().stunned == false)
+            {
+                transform.position = new Vector3(_boss.transform.position.x, 3, _boss.transform.position.z - 5.5f);
+            }
+            else
+            {
+                moveHands();
+            }
         }
         if (phase == 1)
         {
@@ -224,7 +263,7 @@ public class Hands : Movement
     {
         if (phase == 2)
         {
-            transform.LookAt(new Vector3(_boss.transform.position.x + 2.56f, 3, _boss.transform.position.z - 5.5f));
+            transform.LookAt(new Vector3(_boss.transform.position.x, 3, _boss.transform.position.z - 5.5f));
             moveHands();
         }
         if (phase == 1)
@@ -250,7 +289,7 @@ public class Hands : Movement
     {
         if (phase == 2)
         {
-            transform.LookAt(new Vector3(_boss.transform.position.x - 2.56f, 3, _boss.transform.position.z - 5.5f));
+            transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z+5));
             moveHands();
         }
         if (phase == 1)
@@ -263,7 +302,7 @@ public class Hands : Movement
     {
         if (phase == 2)
         {
-            transform.LookAt(new Vector3(_player.transform.position.x - 10, _player.transform.position.y, _player.transform.position.z));
+            transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z-5));
             moveHands();
         }
         if (phase == 1)

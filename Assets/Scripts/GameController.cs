@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
     IEnumerator PhaseTransition()
     {
         _bossWall.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         isPaused = false;
         _bossWall.SetActive(false);
     }
