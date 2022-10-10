@@ -8,7 +8,11 @@ public class Hands : Movement
     [SerializeField] GameObject _player;
 
     [SerializeField] GameObject[] _handsList;
+    [SerializeField] GameObject _handsArt;
 
+    float _randX;
+    float _randZ;
+    float _randY;
 
     Quaternion startRotation;
 
@@ -23,6 +27,10 @@ public class Hands : Movement
     {
         _bossHealth = _boss.GetComponent<Health>()._currentHealth;
         startRotation = transform.rotation;
+
+        _randX = Random.Range(-10, 10);
+        _randZ = Random.Range(-10, 10);
+        _randY = Random.Range(-10, 10);
     }
 
     private void Update()
@@ -37,6 +45,7 @@ public class Hands : Movement
             if (stunned == false)
             {
                 transform.LookAt(_player.transform);
+                _handsArt.transform.rotation = gameObject.transform.rotation;
 
                 if (gameObject.name == "Hand_L1")
                 {
@@ -58,6 +67,28 @@ public class Hands : Movement
             else
             {
                 StunnedState();
+            }
+        }
+
+        if (_isPaused == true)
+        {
+            stunned = false;
+
+            if (gameObject.name == "Hand_L1")
+            {
+                HandL1PhaseTransition();
+            }
+            if (gameObject.name == "Hand_L2")
+            {
+                HandL2PhaseTransition();
+            }
+            if (gameObject.name == "Hand_R1")
+            {
+                HandR1PhaseTransition();
+            }
+            if (gameObject.name == "Hand_R2")
+            {
+                HandR2PhaseTransition();
             }
         }
     }
@@ -89,9 +120,12 @@ public class Hands : Movement
 
     void StunnedState()
     {
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, -180);
+        Quaternion turnOffset = Quaternion.Euler(_randX, _randZ, _randY);
+        _handsArt.transform.rotation = _handsArt.transform.rotation * turnOffset;
+        KnockBack();
     }
 
+    #region hands in phase
     void HandL1()
     {
         if (phase == 3)
@@ -111,14 +145,8 @@ public class Hands : Movement
         }
         if (phase == 1)
         {
-            if (_handsList[1].GetComponent<Hands>().stunned == false)
-            {
-                transform.position = new Vector3(_boss.transform.position.x + 2.56f, 3, _boss.transform.position.z - 5.5f);
-            }
-            else
-            {
-                moveHands();
-            }
+
+            moveHands();
         }
         if (phase == 0)
         {
@@ -163,14 +191,7 @@ public class Hands : Movement
         }
         if (phase == 1)
         {
-            if (_handsList[3].GetComponent<Hands>().stunned == false)
-            {
-                transform.position = new Vector3(_boss.transform.position.x - 2.56f, 3, _boss.transform.position.z - 5.5f);
-            }
-            else
-            {
-                moveHands();
-            }
+            moveHands();
         }
         if (phase == 0)
         {
@@ -196,10 +217,84 @@ public class Hands : Movement
             stunned = true;
         }
     }
+    #endregion; 
+
+    #region hands out of phase
+    void HandL1PhaseTransition()
+    {
+        if (phase == 2)
+        {
+            transform.LookAt(new Vector3(_boss.transform.position.x + 2.56f, 3, _boss.transform.position.z - 5.5f));
+            moveHands();
+        }
+        if (phase == 1)
+        {
+            transform.LookAt(new Vector3(_player.transform.position.x, _player.transform.position.y, _player.transform.position.z + 10));
+            moveHands();
+        }
+    }
+    void HandL2PhaseTransition()
+    {
+        if (phase == 2)
+        {
+            transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z));
+            moveHands();
+        }
+        if (phase == 1)
+        {
+            transform.LookAt(new Vector3(_player.transform.position.x, _player.transform.position.y, _player.transform.position.z - 10));
+            moveHands();
+        }
+    }
+    void HandR1PhaseTransition()
+    {
+        if (phase == 2)
+        {
+            transform.LookAt(new Vector3(_boss.transform.position.x - 2.56f, 3, _boss.transform.position.z - 5.5f));
+            moveHands();
+        }
+        if (phase == 1)
+        {
+            transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z));
+            moveHands();
+        }
+    }
+    void HandR2PhaseTransition()
+    {
+        if (phase == 2)
+        {
+            transform.LookAt(new Vector3(_player.transform.position.x - 10, _player.transform.position.y, _player.transform.position.z));
+            moveHands();
+        }
+        if (phase == 1)
+        {
+            transform.LookAt(new Vector3(_player.transform.position.x - 10, _player.transform.position.y, _player.transform.position.z));
+            moveHands();
+        }
+    }
+    #endregion
 
     void moveHands()
     {
-        Vector3 FowardmoveOffset = transform.forward * _maxSpeed;
+        if (_isPaused == false)
+        {
+            Vector3 FowardmoveOffset = transform.forward * _maxSpeed;
+
+            _rb.MovePosition(_rb.position + FowardmoveOffset);
+        }
+        if (_isPaused == true)
+        {
+            Vector3 FowardmoveOffset = transform.forward * _maxSpeed * 20;
+
+            _rb.MovePosition(_rb.position + FowardmoveOffset);
+        }
+    }
+
+    void KnockBack()
+    {
+        float _reverseSpeed = _maxSpeed * -2.5f;
+
+        Vector3 FowardmoveOffset = transform.forward * _reverseSpeed;
 
         _rb.MovePosition(_rb.position + FowardmoveOffset);
     }

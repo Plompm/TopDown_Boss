@@ -34,11 +34,8 @@ public class playerInputs : Movement, IInstantiater
     {
         _isPaused = GameObject.Find("GameController").GetComponent<GameController>().isPaused;
         Dash();
-        if (_isPaused == false)
-        {
-            Block(0.25f, 1f);
-            shoot();
-        }
+        Block(0.25f, 1f);
+        shoot();
     }
 
     void Dash()
