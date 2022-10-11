@@ -39,21 +39,21 @@ public class playerInputs : Movement, IInstantiater
         Block(0.25f, 1f);
         shoot();
 
-        if (transform.position.x >= 30)
+        if (transform.position.x >= 25)
         {
-            transform.position = new Vector3(30, transform.position.y, transform.position.z); 
+            transform.position = new Vector3(25, transform.position.y, transform.position.z); 
         }
-        if (transform.position.x <= -30)
+        if (transform.position.x <= -25)
         {
-            transform.position = new Vector3(-30, transform.position.y, transform.position.z);
+            transform.position = new Vector3(-25, transform.position.y, transform.position.z);
         }
         if (transform.position.z >= 25)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, 25);
         }
-        if (transform.position.z <= -11)
+        if (transform.position.z <= -10)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, -11);
+            transform.position = new Vector3(transform.position.x, transform.position.y, -10);
         }
     }
     private void LateUpdate()
