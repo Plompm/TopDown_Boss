@@ -12,11 +12,17 @@ public class Hands : Movement
     [SerializeField] GameObject _handShield;
 
     [SerializeField] Material _handsMaterial;
-    
+
+    public GameObject HandShield => _handShield;
 
     float _randX;
     float _randZ;
     float _randY;
+
+    public float _L2handPhase = 0;
+    float _R1handPhase = 0;
+    float _R2handPhase = 0;
+    float _baseMaxSpeed;
 
     Quaternion startRotation;
 
@@ -29,6 +35,7 @@ public class Hands : Movement
     // Start is called before the first frame update
     void Start()
     {
+        _baseMaxSpeed = _maxSpeed;
         _bossHealth = _boss.GetComponent<Health>()._currentHealth;
         startRotation = transform.rotation;
 
@@ -45,15 +52,6 @@ public class Hands : Movement
     private void Update()
     {
         _isPaused = GameObject.Find("GameController").GetComponent<GameController>().isPaused;
-
-        if (_isPaused == false)
-        {
-            if (phase == 2)
-            {
-                _handShield.SetActive(true);
-            }
-        }
-        else _handShield.SetActive(false);
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -173,12 +171,14 @@ public class Hands : Movement
         if (phase == 2)
         {
             transform.LookAt(_player.transform);
-            if (_handsList[1].GetComponent<Hands>().stunned == false)
+            if (_handsList[1].GetComponent<Hands>()._L2handPhase != 3)
             {
+                _handShield.SetActive(true);
                 transform.position = new Vector3(_boss.transform.position.x, 3, _boss.transform.position.z - 5.5f);
             }
             else
             {
+                _handShield.SetActive(false);
                 moveHands();
             }
         }
@@ -200,6 +200,7 @@ public class Hands : Movement
         }
         if (phase == 2)
         {
+            L2Targeting();
             moveHands();
         }
         if (phase == 1)
@@ -226,6 +227,7 @@ public class Hands : Movement
         }
         if (phase == 2)
         {
+            R1Targeting();
             moveHands();
         }
         if (phase == 1)
@@ -245,6 +247,7 @@ public class Hands : Movement
         }
         if (phase == 2)
         {
+            R2Targeting();
             moveHands();
         }
         if (phase == 1)
@@ -276,7 +279,7 @@ public class Hands : Movement
     {
         if (phase == 2)
         {
-            transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z));
+            transform.LookAt(new Vector3(_player.transform.position.x + 20, _player.transform.position.y, _player.transform.position.z+8));
             moveHands();
         }
         if (phase == 1)
@@ -289,7 +292,7 @@ public class Hands : Movement
     {
         if (phase == 2)
         {
-            transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z+5));
+            transform.LookAt(new Vector3(_player.transform.position.x + 20, _player.transform.position.y, _player.transform.position.z));
             moveHands();
         }
         if (phase == 1)
@@ -302,7 +305,7 @@ public class Hands : Movement
     {
         if (phase == 2)
         {
-            transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z-5));
+            transform.LookAt(new Vector3(_player.transform.position.x + 20, _player.transform.position.y, _player.transform.position.z-8));
             moveHands();
         }
         if (phase == 1)
@@ -348,4 +351,103 @@ public class Hands : Movement
             }
         }
     }
+
+    #region targeting for hands
+    void L2Targeting()
+    {
+        if (_L2handPhase != 3)
+        {
+            _handShield.SetActive(true);
+        }
+        if (transform.position.x <= -20 && _L2handPhase == 0)
+        {
+            _L2handPhase = 1;
+        }
+        if (transform.position.x >= 20 && _L2handPhase == 1)
+        {
+            _L2handPhase = 2;
+        }
+        if (transform.position.x <= -20 && _L2handPhase == 2)
+        {
+            _L2handPhase = 3;
+        }
+
+        if (_L2handPhase == 0)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+            _maxSpeed = .25f;
+        }
+        if (_L2handPhase == 1)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+            _maxSpeed = 0.4f;
+        }
+        if (_L2handPhase == 2)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+            _maxSpeed = 0.6f;
+        }
+        if (_L2handPhase == 3)
+        {
+            _maxSpeed = _baseMaxSpeed;
+            transform.LookAt(_player.transform);
+            _handShield.SetActive(false);
+        }
+    }
+    void R1Targeting()
+    {
+        if (_R1handPhase != 2)
+        {
+            _handShield.SetActive(true);
+        }
+        if (transform.position.x <= -20 && _R2handPhase == 0)
+        {
+            _R2handPhase = 1;
+        }
+        if (transform.position.x >= 20 && _R2handPhase == 1)
+        {
+            _R2handPhase = 2;
+        }
+
+        if (_R2handPhase == 0)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+            _maxSpeed = .25f;
+        }
+        if (_R2handPhase == 1)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+            _maxSpeed = 0.3f;
+        }
+        if (_R2handPhase == 2)
+        {
+            _maxSpeed = _baseMaxSpeed;
+            transform.LookAt(_player.transform);
+            _handShield.SetActive(false);
+        }
+    }
+    void R2Targeting()
+    {
+        if (_R2handPhase != 1)
+        {
+            _handShield.SetActive(true);
+        }
+        if (transform.position.x <= -20 && _R1handPhase == 0)
+        {
+            _R1handPhase = 1;
+        }
+
+        if (_R1handPhase == 0)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+            _maxSpeed = .15f;
+        }
+        if (_R1handPhase == 1)
+        {
+            _maxSpeed = _baseMaxSpeed;
+            transform.LookAt(_player.transform);
+            _handShield.SetActive(false);
+        }
+    }
+    #endregion 
 }

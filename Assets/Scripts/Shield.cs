@@ -21,7 +21,7 @@ public class Shield : MonoBehaviour
 
                 Instantiate(_vfxShieldHit, gameObject.transform.position, gameObject.transform.rotation);
                 AudioHelper.PlayClip2D(_shieldHit, 0.5f);
-                if (other.GetComponent<Hands>().phase != 2)
+                if (other.GetComponent<Hands>().HandShield.activeInHierarchy == false)
                 {
                     other.GetComponent<Hands>().stunned = true;
                 }
@@ -30,7 +30,6 @@ public class Shield : MonoBehaviour
             }
             if (other.tag == "handShield")
             {
-
                 Instantiate(_vfxBadHit, gameObject.transform.position, gameObject.transform.rotation);
                 AudioHelper.PlayClip2D(_badHit, 0.5f);
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
