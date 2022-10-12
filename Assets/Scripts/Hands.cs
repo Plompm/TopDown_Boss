@@ -267,11 +267,13 @@ public class Hands : Movement
         if (phase == 2)
         {
             transform.LookAt(new Vector3(_boss.transform.position.x, 3, _boss.transform.position.z - 5.5f));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
         if (phase == 1)
         {
             transform.LookAt(new Vector3(_player.transform.position.x, _player.transform.position.y, _player.transform.position.z + 10));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
     }
@@ -280,11 +282,13 @@ public class Hands : Movement
         if (phase == 2)
         {
             transform.LookAt(new Vector3(_player.transform.position.x + 20, _player.transform.position.y, _player.transform.position.z+8));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
         if (phase == 1)
         {
             transform.LookAt(new Vector3(_player.transform.position.x, _player.transform.position.y, _player.transform.position.z - 10));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
     }
@@ -293,11 +297,13 @@ public class Hands : Movement
         if (phase == 2)
         {
             transform.LookAt(new Vector3(_player.transform.position.x + 20, _player.transform.position.y, _player.transform.position.z));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
         if (phase == 1)
         {
             transform.LookAt(new Vector3(_player.transform.position.x + 10, _player.transform.position.y, _player.transform.position.z));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
     }
@@ -306,11 +312,13 @@ public class Hands : Movement
         if (phase == 2)
         {
             transform.LookAt(new Vector3(_player.transform.position.x + 20, _player.transform.position.y, _player.transform.position.z-8));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
         if (phase == 1)
         {
             transform.LookAt(new Vector3(_player.transform.position.x - 10, _player.transform.position.y, _player.transform.position.z));
+            _handsArt.transform.LookAt(_player.transform);
             moveHands();
         }
     }
